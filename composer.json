@@ -1,50 +1,43 @@
 {
-    "name": "phpunit/phpunit-mock-objects",
-    "description": "Mock Object library for PHPUnit",
-    "type": "library",
-    "keywords": [
-        "xunit",
-        "mock"
-    ],
-    "homepage": "https://github.com/sebastianbergmann/phpunit-mock-objects/",
-    "license": "BSD-3-Clause",
-    "authors": [
+    "name":         "phpspec/prophecy",
+    "description":  "Highly opinionated mocking framework for PHP 5.3+",
+    "keywords":     ["Mock", "Stub", "Dummy", "Double", "Fake", "Spy"],
+    "homepage":     "https://github.com/phpspec/prophecy",
+    "type":         "library",
+    "license":      "MIT",
+    "authors":      [
         {
-            "name": "Sebastian Bergmann",
-            "email": "sb@sebastian-bergmann.de",
-            "role": "lead"
+            "name":      "Konstantin Kudryashov",
+            "email":     "ever.zet@gmail.com",
+            "homepage":  "http://everzet.com"
+        },
+        {
+            "name":      "Marcello Duarte",
+            "email":     "marcello.duarte@gmail.com"
         }
     ],
-    "support": {
-        "issues": "https://github.com/sebastianbergmann/phpunit-mock-objects/issues",
-        "irc": "irc://irc.freenode.net/phpunit"
-    },
+
     "require": {
-        "php": ">=5.3.3",
-        "phpunit/php-text-template": "~1.2",
-        "doctrine/instantiator": "^1.0.2",
-        "sebastian/exporter": "~1.2"
+        "php":                               "^5.3|^7.0",
+        "phpdocumentor/reflection-docblock": "^2.0|^3.0.2",
+        "sebastian/comparator":              "^1.1",
+        "doctrine/instantiator":             "^1.0.2",
+        "sebastian/recursion-context":       "^1.0"
     },
+
     "require-dev": {
-        "phpunit/phpunit": "~4.4"
+        "phpspec/phpspec": "^2.0"
     },
-    "suggest": {
-        "ext-soap": "*"
-    },
+
     "autoload": {
-        "classmap": [
-            "src/"
-        ]
+        "psr-0": {
+            "Prophecy\\": "src/"
+        }
     },
-    "autoload-dev": {
-        "classmap": [
-            "tests/_fixture/"
-        ]
-    },
+
     "extra": {
         "branch-alias": {
-            "dev-master": "2.3.x-dev"
+            "dev-master": "1.6.x-dev"
         }
     }
 }
-
