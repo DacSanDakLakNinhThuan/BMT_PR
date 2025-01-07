@@ -1,8 +1,8 @@
 {
-    "name": "symfony/translation",
+    "name": "symfony/routing",
     "type": "library",
-    "description": "Symfony Translation Component",
-    "keywords": [],
+    "description": "Symfony Routing Component",
+    "keywords": ["routing", "router", "URL", "URI"],
     "homepage": "https://symfony.com",
     "license": "MIT",
     "authors": [
@@ -16,25 +16,30 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "symfony/polyfill-mbstring": "~1.0"
+        "php": ">=5.5.9"
     },
     "require-dev": {
         "symfony/config": "~2.8|~3.0",
-        "symfony/intl": "~2.8|~3.0",
+        "symfony/http-foundation": "~2.8|~3.0",
         "symfony/yaml": "~2.8|~3.0",
+        "symfony/expression-language": "~2.8|~3.0",
+        "doctrine/annotations": "~1.0",
+        "doctrine/common": "~2.2",
         "psr/log": "~1.0"
     },
     "conflict": {
         "symfony/config": "<2.8"
     },
     "suggest": {
-        "symfony/config": "",
-        "symfony/yaml": "",
-        "psr/log": "To use logging capability in translator"
+        "symfony/http-foundation": "For using a Symfony Request object",
+        "symfony/config": "For using the all-in-one router or any loader",
+        "symfony/yaml": "For using the YAML loader",
+        "symfony/expression-language": "For using expression matching",
+        "doctrine/annotations": "For using the annotation loader",
+        "symfony/dependency-injection": "For loading routes from a service"
     },
     "autoload": {
-        "psr-4": { "Symfony\\Component\\Translation\\": "" },
+        "psr-4": { "Symfony\\Component\\Routing\\": "" },
         "exclude-from-classmap": [
             "/Tests/"
         ]
