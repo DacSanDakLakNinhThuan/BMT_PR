@@ -1,45 +1,40 @@
 <?php
 
-/*
- * This file is part of Psy Shell.
- *
- * (c) 2012-2015 Justin Hileman
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-namespace Psy;
+namespace PhpParser;
 
 /**
- * Psy class autoloader.
+ * @codeCoverageIgnore
  */
 class Autoloader
 {
-    /**
-     * Register autoload() as an SPL autoloader.
-     *
-     * @see self::autoload
-     */
-    public static function register()
-    {
-        spl_autoload_register(array(__CLASS__, 'autoload'));
-    }
+    /** @var bool Whether the autoloader has been registered. */
+    private static $registered = false;
 
     /**
-     * Autoload Psy classes.
+     * Registers PhpParser\Autoloader as an SPL autoloader.
      *
-     * @param string $class
+     * @param bool $prepend Whether to prepend the autoloader instead of appending
      */
-    public static function autoload($class)
-    {
-        if (0 !== strpos($class, 'Psy')) {
+    static public function register($prepend = false) {
+        if (self::$registered === true) {
             return;
         }
 
-        $file = dirname(__DIR__) . '/' . strtr($class, '\\', '/') . '.php';
-        if (is_file($file)) {
-            require $file;
+        spl_autoload_register(array(__CLASS__, 'autoload'), true, $prepend);
+        self::$registered = true;
+    }
+
+    /**
+     * Handles autoloading of classes.
+     *
+     * @param string $class A class name.
+     */
+    static public function autoload($class) {
+        if (0 === strpos($class, 'PhpParser\\')) {
+            $fileName = __DIR__ . strtr(substr($class, 9), '\\', '/') . '.php';
+            if (file_exists($fileName)) {
+                require $fileName;
+            }
         }
     }
 }
