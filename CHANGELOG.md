@@ -1,104 +1,138 @@
-CHANGELOG
-=========
+Version 2.1.1-dev
+-----------------
 
-3.0.0
------
+Nothing yet.
 
- * removed `Symfony\Component\HttpKernel\Kernel::init()`
- * removed `Symfony\Component\HttpKernel\Kernel::isClassInActiveBundle()` and `Symfony\Component\HttpKernel\KernelInterface::isClassInActiveBundle()`
- * removed `Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher::setProfiler()`
- * removed `Symfony\Component\HttpKernel\EventListener\FragmentListener::getLocalIpAddresses()`
- * removed `Symfony\Component\HttpKernel\EventListener\LocaleListener::setRequest()`
- * removed `Symfony\Component\HttpKernel\EventListener\RouterListener::setRequest()`
- * removed `Symfony\Component\HttpKernel\EventListener\ProfilerListener::onKernelRequest()`
- * removed `Symfony\Component\HttpKernel\Fragment\FragmentHandler::setRequest()`
- * removed `Symfony\Component\HttpKernel\HttpCache\Esi::hasSurrogateEsiCapability()` 
- * removed `Symfony\Component\HttpKernel\HttpCache\Esi::addSurrogateEsiCapability()` 
- * removed `Symfony\Component\HttpKernel\HttpCache\Esi::needsEsiParsing()`
- * removed `Symfony\Component\HttpKernel\HttpCache\HttpCache::getEsi()`
- * removed `Symfony\Component\HttpKernel\DependencyInjection\ContainerAwareHttpKernel`
- * removed `Symfony\Component\HttpKernel\DependencyInjection\RegisterListenersPass`
- * removed `Symfony\Component\HttpKernel\EventListener\ErrorsLoggerListener`
- * removed `Symfony\Component\HttpKernel\EventListener\EsiListener`
- * removed `Symfony\Component\HttpKernel\HttpCache\EsiResponseCacheStrategy`
- * removed `Symfony\Component\HttpKernel\HttpCache\EsiResponseCacheStrategyInterface`
- * removed `Symfony\Component\HttpKernel\Log\LoggerInterface`
- * removed `Symfony\Component\HttpKernel\Log\NullLogger`
- * removed `Symfony\Component\HttpKernel\Profiler::import()`
- * removed `Symfony\Component\HttpKernel\Profiler::export()`
+Version 2.1.0 (2016-04-19)
+--------------------------
 
-2.8.0
------
+### Fixed
 
- * deprecated `Profiler::import` and `Profiler::export`
+* Properly support `B""` strings (with uppercase `B`) in a number of places.
+* Fixed reformatting of indented parts in a certain non-standard comment style.
 
-2.7.0
------
+### Added
 
- * added the HTTP status code to profiles
+* Added `dumpComments` option to node dumper, to enable dumping of comments associated with nodes.
+* Added `Stmt\Nop` node, that is used to collect comments located at the end of a block or at the
+  end of a file (without a following node with which they could otherwise be associated).
+* Added `kind` attribute to `Expr\Exit` to distinguish between `exit` and `die`.
+* Added `kind` attribute to `Scalar\LNumber` to distinguish between decimal, binary, octal and
+  hexadecimal numbers.
+* Added `kind` attribtue to `Expr\Array` to distinguish between `array()` and `[]`.
+* Added `kind` attribute to `Scalar\String` and `Scalar\Encapsed` to distinguish between
+  single-quoted, double-quoted, heredoc and nowdoc string.
+* Added `docLabel` attribute to `Scalar\String` and `Scalar\Encapsed`, if it is a heredoc or
+  nowdoc string.
+* Added start file offset information to `Comment` nodes.
+* Added `setReturnType()` method to function and method builders.
+* Added `-h` and `--help` options to `php-parse` script.
 
-2.6.0
------
+### Changed
 
- * deprecated `Symfony\Component\HttpKernel\EventListener\ErrorsLoggerListener`, use `Symfony\Component\HttpKernel\EventListener\DebugHandlersListener` instead
- * deprecated unused method `Symfony\Component\HttpKernel\Kernel::isClassInActiveBundle` and `Symfony\Component\HttpKernel\KernelInterface::isClassInActiveBundle`
+* Invalid octal literals now throw a parse error in PHP 7 mode.
+* The pretty printer takes all the new attributes mentioned in the previous section into account.
+* The protected `AbstractPrettyPrinter::pComments()` method no longer returns a trailing newline.
+* The bundled autoloader supports library files being stored in a different directory than
+  `PhpParser` for easier downstream distribution.
 
-2.5.0
------
+### Deprecated
 
- * deprecated `Symfony\Component\HttpKernel\DependencyInjection\RegisterListenersPass`, use `Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass` instead
+* The `Comment::setLine()` and `Comment::setText()` methods have been deprecated. Construct new
+  objects instead.
 
-2.4.0
------
+### Removed
 
- * added event listeners for the session
- * added the KernelEvents::FINISH_REQUEST event
+* The internal (but public) method `Scalar\LNumber::parse()` has been removed. A non-internal
+  `LNumber::fromString()` method has been added instead.
 
-2.3.0
------
+Version 2.0.1 (2016-02-28)
+--------------------------
 
- * [BC BREAK] renamed `Symfony\Component\HttpKernel\EventListener\DeprecationLoggerListener` to `Symfony\Component\HttpKernel\EventListener\ErrorsLoggerListener` and changed its constructor
- * deprecated `Symfony\Component\HttpKernel\Debug\ErrorHandler`, `Symfony\Component\HttpKernel\Debug\ExceptionHandler`,
-   `Symfony\Component\HttpKernel\Exception\FatalErrorException` and `Symfony\Component\HttpKernel\Exception\FlattenException`
- * deprecated `Symfony\Component\HttpKernel\Kernel::init()`
- * added the possibility to specify an id an extra attributes to hinclude tags
- * added the collect of data if a controller is a Closure in the Request collector
- * pass exceptions from the ExceptionListener to the logger using the logging context to allow for more
-   detailed messages
+### Fixed
 
-2.2.0
------
+* `declare() {}` and `declare();` are not semantically equivalent and will now result in different
+  ASTs. The format case will have an empty `stmts` array, while the latter will set `stmts` to
+  `null`.
+* Magic constants are now supported as semi-reserved keywords.
+* A shebang line like `#!/usr/bin/env php` is now allowed at the start of a namespaced file.
+  Previously this generated an exception.
+* The `prettyPrintFile()` method will not strip a trailing `?>` from the raw data that follows a
+  `__halt_compiler()` statement.
+* The `prettyPrintFile()` method will not strip an opening `<?php` if the file starts with a
+  comment followed by InlineHTML.
 
- * [BC BREAK] the path info for sub-request is now always _fragment (or whatever you configured instead of the default)
- * added Symfony\Component\HttpKernel\EventListener\FragmentListener
- * added Symfony\Component\HttpKernel\UriSigner
- * added Symfony\Component\HttpKernel\FragmentRenderer and rendering strategies (in Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface)
- * added Symfony\Component\HttpKernel\DependencyInjection\ContainerAwareHttpKernel
- * added ControllerReference to create reference of Controllers (used in the FragmentRenderer class)
- * [BC BREAK] renamed TimeDataCollector::getTotalTime() to
-   TimeDataCollector::getDuration()
- * updated the MemoryDataCollector to include the memory used in the
-   kernel.terminate event listeners
- * moved the Stopwatch classes to a new component
- * added TraceableControllerResolver
- * added TraceableEventDispatcher (removed ContainerAwareTraceableEventDispatcher)
- * added support for WinCache opcode cache in ConfigDataCollector
+Version 2.0.0 (2015-12-04)
+--------------------------
 
-2.1.0
------
+### Changed
 
- * [BC BREAK] the charset is now configured via the Kernel::getCharset() method
- * [BC BREAK] the current locale for the user is not stored anymore in the session
- * added the HTTP method to the profiler storage
- * updated all listeners to implement EventSubscriberInterface
- * added TimeDataCollector
- * added ContainerAwareTraceableEventDispatcher
- * moved TraceableEventDispatcherInterface to the EventDispatcher component
- * added RouterListener, LocaleListener, and StreamedResponseListener
- * added CacheClearerInterface (and ChainCacheClearer)
- * added a kernel.terminate event (via TerminableInterface and PostResponseEvent)
- * added a Stopwatch class
- * added WarmableInterface
- * improved extensibility between bundles
- * added profiler storages for Memcache(d), File-based, MongoDB, Redis
- * moved Filesystem class to its own component
+* String parts of encapsed strings are now represented using `Scalar\EncapsStringPart` nodes.
+  Previously raw strings were used. This affects the `parts` child of `Scalar\Encaps` and
+  `Expr\ShellExec`. The change has been done to allow assignment of attributes to encapsed string
+  parts.
+
+Version 2.0.0-beta1 (2015-10-21)
+--------------------------------
+
+### Fixed
+
+* Fixed issue with too many newlines being stripped at the end of heredoc/nowdoc strings in some
+  cases. (#227)
+
+### Changed
+
+* Update group use support to be in line with recent PHP 7.0 builds.
+* Renamed `php-parse.php` to `php-parse` and registered it as a composer bin.
+* Use composer PSR-4 autoloader instead of custom autoloader.
+* Specify phpunit as a dev dependency.
+
+### Added
+
+* Added `shortArraySyntax` option to pretty printer, to print all arrays using short syntax.
+
+Version 2.0.0-alpha1 (2015-07-14)
+---------------------------------
+
+A more detailed description of backwards incompatible changes can be found in the
+[upgrading guide](UPGRADE-2.0.md).
+
+### Removed
+
+* Removed support for running on PHP 5.4. It is however still possible to parse PHP 5.2 and PHP 5.3
+  code while running on a newer version.
+* Removed legacy class name aliases. This includes the old non-namespaced class names and the old
+  names for classes that were renamed for PHP 7 compatibility.
+* Removed support for legacy node format. All nodes must have a `getSubNodeNames()` method now.
+
+### Added
+
+* Added support for remaining PHP 7 features that were not present in 1.x:
+  * Group use declarations. These are represented using `Stmt\GroupUse` nodes. Furthermore a `type`
+    attribute was added to `Stmt\UseUse` to handle mixed group use declarations.
+  * Uniform variable syntax.
+  * Generalized yield operator.
+  * Scalar type declarations. These are presented using `'bool'`, `'int'`, `'float'` and `'string'`
+    as the type. The PHP 5 parser also accepts these, however they'll be `Name` instances there.
+  * Unicode escape sequences.
+* Added `PhpParser\ParserFactory` class, which should be used to create parser instances.
+* Added `Name::concat()` which concatenates two names.
+* Added `Name->slice()` which takes a subslice of a name.
+
+### Changed
+
+* `PhpParser\Parser` is now an interface, implemented by `Parser\Php5`, `Parser\Php7` and
+  `Parser\Multiple`. The `Multiple` parser will try multiple parsers, until one succeeds.
+* Token constants are now defined on `PhpParser\Parser\Tokens` rather than `PhpParser\Parser`.
+* The `Name->set()`, `Name->append()`, `Name->prepend()` and `Name->setFirst()` methods are
+  deprecated in favor of `Name::concat()` and `Name->slice()`.
+* The `NodeTraverser` no longer clones nodes by default. The old behavior can be restored by
+  passing `true` to the constructor.
+* The constructor for `Scalar` nodes no longer has a default value. E.g. `new LNumber()` should now
+  be written as `new LNumber(0)`.
+
+---
+
+**This changelog only includes changes from the 2.0 series. For older changes see the
+[1.x series changelog](https://github.com/nikic/PHP-Parser/blob/1.x/CHANGELOG.md) and the
+[0.9 series changelog](https://github.com/nikic/PHP-Parser/blob/0.9/CHANGELOG.md).**

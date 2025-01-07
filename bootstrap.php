@@ -1,21 +1,20 @@
 <?php
 
-require_once dirname(__DIR__).'/vendor/autoload.php';
+namespace PhpParser;
 
-// Disable garbage collector to prevent segfaults
-gc_disable();
+require __DIR__ . '/../vendor/autoload.php';
 
-set_include_path(get_include_path().PATH_SEPARATOR.dirname(__DIR__).'/lib');
+function canonicalize($str) {
+    // normalize EOL style
+    $str = str_replace("\r\n", "\n", $str);
 
-Mockery::getConfiguration()->allowMockingNonExistentMethods(false);
+    // trim newlines at end
+    $str = rtrim($str, "\n");
 
-if (is_file(__DIR__.'/acceptance.conf.php')) {
-    require_once __DIR__.'/acceptance.conf.php';
+    // remove trailing whitespace on all lines
+    $lines = explode("\n", $str);
+    $lines = array_map(function($line) {
+        return rtrim($line, " \t");
+    }, $lines);
+    return implode("\n", $lines);
 }
-if (is_file(__DIR__.'/smoke.conf.php')) {
-    require_once __DIR__.'/smoke.conf.php';
-}
-require_once __DIR__.'/StreamCollector.php';
-require_once __DIR__.'/IdenticalBinaryConstraint.php';
-require_once __DIR__.'/SwiftMailerTestCase.php';
-require_once __DIR__.'/SwiftMailerSmokeTestCase.php';
