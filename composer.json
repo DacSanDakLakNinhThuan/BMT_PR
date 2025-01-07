@@ -1,66 +1,36 @@
 {
-    "name": "symfony/http-kernel",
+    "name": "swiftmailer/swiftmailer",
     "type": "library",
-    "description": "Symfony HttpKernel Component",
-    "keywords": [],
-    "homepage": "https://symfony.com",
+    "description": "Swiftmailer, free feature-rich PHP mailer",
+    "keywords": ["mail","mailer","email"],
+    "homepage": "http://swiftmailer.org",
     "license": "MIT",
     "authors": [
         {
-            "name": "Fabien Potencier",
-            "email": "fabien@symfony.com"
+            "name": "Chris Corbyn"
         },
         {
-            "name": "Symfony Community",
-            "homepage": "https://symfony.com/contributors"
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "symfony/event-dispatcher": "~2.8|~3.0",
-        "symfony/http-foundation": "~2.8|~3.0",
-        "symfony/debug": "~2.8|~3.0",
-        "psr/log": "~1.0"
+        "php": ">=5.3.3"
     },
     "require-dev": {
-        "symfony/browser-kit": "~2.8|~3.0",
-        "symfony/class-loader": "~2.8|~3.0",
-        "symfony/config": "~2.8|~3.0",
-        "symfony/console": "~2.8|~3.0",
-        "symfony/css-selector": "~2.8|~3.0",
-        "symfony/dependency-injection": "~2.8|~3.0",
-        "symfony/dom-crawler": "~2.8|~3.0",
-        "symfony/expression-language": "~2.8|~3.0",
-        "symfony/finder": "~2.8|~3.0",
-        "symfony/process": "~2.8|~3.0",
-        "symfony/routing": "~2.8|~3.0",
-        "symfony/stopwatch": "~2.8|~3.0",
-        "symfony/templating": "~2.8|~3.0",
-        "symfony/translation": "~2.8|~3.0",
-        "symfony/var-dumper": "~2.8|~3.0"
-    },
-    "conflict": {
-        "symfony/config": "<2.8"
-    },
-    "suggest": {
-        "symfony/browser-kit": "",
-        "symfony/class-loader": "",
-        "symfony/config": "",
-        "symfony/console": "",
-        "symfony/dependency-injection": "",
-        "symfony/finder": "",
-        "symfony/var-dumper": ""
+        "mockery/mockery": "~0.9.1,<0.9.4"
     },
     "autoload": {
-        "psr-4": { "Symfony\\Component\\HttpKernel\\": "" },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+        "files": ["lib/swift_required.php"]
     },
-    "minimum-stability": "dev",
+    "autoload-dev": {
+        "psr-0": {
+            "Swift_": "tests/unit"
+        }
+    },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0-dev"
+            "dev-master": "5.4-dev"
         }
     }
 }
