@@ -1,89 +1,22 @@
-# Contributing
+Contributing
+============
 
+If you've written a new formatter, adapted Faker to a new locale, or fixed a bug, your contribution is welcome!
 
-We'd love you to help out with mockery and no contribution is too small.
+Before proposing a pull request, check the following:
 
+* Your code should follow the [PSR-2 coding standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md). Run `make sniff` to check that the coding standards are followed, and use [php-cs-fixer](https://github.com/fabpot/PHP-CS-Fixer) to fix inconsistencies.
+* Unit tests should still pass after your patch. Run the tests on your dev server (with `make test`) or check the continuous integration status for your pull request.
+* As much as possible, add unit tests for your code
+* Never use `rand()` in your providers. Faker uses the Mersenne Twister Randomizer, so use `mt_rand()` or any of the base generators (`randomNumber`, `randomElement`, etc.) instead.
+* If you add new providers (or new locales) and that they embed a lot of data for random generation (e.g. first names in a new language), please add a `@link` to the reference you used for this list (example [in the ru_RU locale](https://github.com/fzaninotto/Faker/blob/master/src/Faker/Provider/ru_RU/Person.php#L13)). This will ease future updates of the list and debates about the most relevant data for this provider.
+* If you add long list of random data, please split the list into several lines. This makes diffs easier to read, and facilitates core review.
+* If you add new formatters, please include documentation for it in the README. Don't forget to add a line about new formatters in the `@property` or `@method` phpDoc entries in [Generator.php](https://github.com/fzaninotto/Faker/blob/master/src/Faker/Generator.php#L6-L118) to help IDEs auto-complete your formatters.
+* If your new formatters are specific to a certain locale, document them in the [Language-specific formatters](https://github.com/fzaninotto/Faker#language-specific-formatters) list instead.
+* Avoid changing existing sets of data. Some developers use Faker with seeding for unit tests ; changing the data makes their tests fail.
+* Speed is important in all Faker usages. Make sure your code is optimized to generate thousands of fake items in no time, without consuming too much memory or CPU.
+* If you commit a new feature, be prepared to help maintaining it. Watch the project on GitHub, and please comment on issues or PRs regarding the feature you contributed.
 
-## Reporting Bugs
+Once your code is merged, it is available for free to everybody under the MIT License. Publishing your Pull Request on the Faker GitHub repository means that you agree with this license for your contribution.
 
-Issues can be reported on the [issue
-tracker](https://github.com/padraic/mockery/issues). Please try and report any
-bugs with a minimal reproducible example, it will make things easier for other
-contributors and your problems will hopefully be resolved quickly.
-
-
-## Requesting Features
-
-We're always interested to hear about your ideas and you can request features by
-creating a ticket in the [issue
-tracker](https://github.com/padraic/mockery/issues). We can't always guarantee
-someone will jump on it straight away, but putting it out there to see if anyone
-else is interested is a good idea.
-
-Likewise, if a feature you would like is already listed in
-the issue tracker, add a :+1: so that other contributors know it's a feature
-that would help others.
-
-
-## Contributing code and documentation
-
-We loosely follow the
-[PSR-1](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md)
-and
-[PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) coding standards,
-but we'll probably merge any code that looks close enough.
-
-* Fork the [repository](https://github.com/padraic/mockery) on GitHub
-* Add the code for your feature or bug
-* Add some tests for your feature or bug
-* Optionally, but preferably, write some documentation 
-* Optionally, update the CHANGELOG.md file with your feature or
-  [BC](http://en.wikipedia.org/wiki/Backward_compatibility) break
-* If you have created new library files, add them to the root package.xml file for PEAR install support.
-* Send a [Pull
-  Request](https://help.github.com/articles/creating-a-pull-request) to the
-  correct target branch (see below)
-
-If you have a big change or would like to discuss something, create an issue in
-the [issue tracker](https://github.com/padraic/mockery/issues) or jump in to
-\#mockery on freenode
-
-
-Any code you contribute must be licensed under the [BSD 3-Clause
-License](http://opensource.org/licenses/BSD-3-Clause).
-
-
-## Target Branch
-
-Mockery may have several active branches at any one time and roughly follows a
-[Git Branching Model](https://igor.io/2013/10/21/git-branching-model.html).
-Generally, if you're developing a new feature, you want to be targeting the
-master branch, if it's a bug fix, you want to be targeting a release branch,
-e.g. 0.8.
-
-
-## Testing Mockery
-
-To run the unit tests for Mockery, clone the git repository, download Composer using
-the instructions at [http://getcomposer.org/download/](http://getcomposer.org/download/),
-then install the dependencies with `php /path/to/composer.phar install --dev`.
-
-This will install the required PHPUnit and Hamcrest dev dependencies and create the
-autoload files required by the unit tests. You may run the `vendor/bin/phpunit` command
-to run the unit tests. If everything goes to plan, there will be no failed tests!
-
-
-## Debugging Mockery
-
-Mockery and it's code generation can be difficult to debug. A good start is to
-use the `RequireLoader`, which will dump the code generated by mockery to a file
-before requiring it, rather than using eval. This will help with stack traces,
-and you will be able to open the mock class in your editor.
-
-``` php
-
-// tests/bootstrap.php
-
-Mockery::setLoader(new Mockery\Loader\RequireLoader(sys_get_temp_dir()));
-
-```
+Thank you for your contribution! Faker wouldn't be so great without you.
