@@ -1,96 +1,68 @@
-PHP Parser
-==========
+Mockery
+=======
 
-[![Build Status](https://travis-ci.org/nikic/PHP-Parser.svg?branch=master)](https://travis-ci.org/nikic/PHP-Parser) [![Coverage Status](https://coveralls.io/repos/github/nikic/PHP-Parser/badge.svg?branch=master)](https://coveralls.io/github/nikic/PHP-Parser?branch=master)
+[![Build Status](https://travis-ci.org/padraic/mockery.png?branch=master)](http://travis-ci.org/padraic/mockery)
+[![Latest Stable Version](https://poser.pugx.org/mockery/mockery/v/stable.png)](https://packagist.org/packages/mockery/mockery)
+[![Total Downloads](https://poser.pugx.org/mockery/mockery/downloads.png)](https://packagist.org/packages/mockery/mockery)
 
-This is a PHP 5.2 to PHP 7.0 parser written in PHP. Its purpose is to simplify static code analysis and
-manipulation.
 
-[**Documentation for version 2.x**][doc_master] (stable; for running on PHP >= 5.4; for parsing PHP 5.2 to PHP 7.0).
+Mockery is a simple yet flexible PHP mock object framework for use in unit testing
+with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a
+test double framework with a succinct API capable of clearly defining all possible
+object operations and interactions using a human readable Domain Specific Language
+(DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library,
+Mockery is easy to integrate with PHPUnit and can operate alongside
+phpunit-mock-objects without the World ending.
 
-[Documentation for version 1.x][doc_1_x] (unsupported; for running on PHP >= 5.3; for parsing PHP 5.2 to PHP 5.6).
+Mockery is released under a New BSD License.
 
-In a Nutshell
--------------
+The current released version on Packagist is 0.9.3.
+The current released version for PEAR is 0.9.0. Composer users may instead opt to use
+the current master branch aliased to 0.9.x-dev.
 
-The parser turns PHP source code into an abstract syntax tree. For example, if you pass the following code into the
-parser:
+## Installation
 
-```php
-<?php
-echo 'Hi', 'World';
-hello\world('foo', 'bar' . 'baz');
+To install Mockery, run the command below and you will get the latest
+version
+
+```sh
+composer require mockery/mockery
 ```
 
-You'll get a syntax tree looking roughly like this:
+If you want to run the tests:
 
-```php
-array(
-    0: Stmt_Echo(
-        exprs: array(
-            0: Scalar_String(
-                value: Hi
-            )
-            1: Scalar_String(
-                value: World
-            )
-        )
-    )
-    1: Expr_FuncCall(
-        name: Name(
-            parts: array(
-                0: hello
-                1: world
-            )
-        )
-        args: array(
-            0: Arg(
-                value: Scalar_String(
-                    value: foo
-                )
-                byRef: false
-            )
-            1: Arg(
-                value: Expr_Concat(
-                    left: Scalar_String(
-                        value: bar
-                    )
-                    right: Scalar_String(
-                        value: baz
-                    )
-                )
-                byRef: false
-            )
-        )
-    )
-)
+```sh
+vendor/bin/phpunit
 ```
 
-You can then work with this syntax tree, for example to statically analyze the code (e.g. to find
-programming errors or security issues).
+####Note
 
-Additionally, you can convert a syntax tree back to PHP code. This allows you to do code preprocessing
-(like automatedly porting code to older PHP versions).
+The future Mockery 0.9.4 release will be the final version to have PHP 5.3
+as a minimum requirement. The minimum PHP requirement will thereafter move to
+PHP 5.4. Also, the PEAR channel will go offline permanently no earlier than 30
+June 2015.
 
-Installation
-------------
+## Mock Objects
 
-The preferred installation method is [composer](https://getcomposer.org):
+In unit tests, mock objects simulate the behaviour of real objects. They are
+commonly utilised to offer test isolation, to stand in for objects which do not
+yet exist, or to allow for the exploratory design of class APIs without
+requiring actual implementation up front.
 
-    php composer.phar require nikic/php-parser
+The benefits of a mock object framework are to allow for the flexible generation
+of such mock objects (and stubs). They allow the setting of expected method calls
+and return values using a flexible API which is capable of capturing every
+possible real object behaviour in way that is stated as close as possible to a
+natural language description.
 
-Documentation
--------------
 
- 1. [Introduction](doc/0_Introduction.markdown)
- 2. [Usage of basic components](doc/2_Usage_of_basic_components.markdown)
- 3. [Other node tree representations](doc/3_Other_node_tree_representations.markdown)
- 4. [Code generation](doc/4_Code_generation.markdown)
+## Prerequisites
 
-Component documentation:
+Mockery requires PHP 5.3.2 or greater. In addition, it is recommended to install
+the Hamcrest library (see below for instructions) which contains additional
+matchers used when defining expected method arguments.
 
- 1. [Error](doc/component/Error.markdown)
- 2. [Lexer](doc/component/Lexer.markdown)
 
- [doc_1_x]: https://github.com/nikic/PHP-Parser/tree/1.x/doc
- [doc_master]: https://github.com/nikic/PHP-Parser/tree/master/doc
+## Documentation
+
+The current version can be seen at [docs.mockery.io](http://docs.mockery.io).
