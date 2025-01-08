@@ -1,68 +1,51 @@
-Mockery
-=======
+This is the PHP port of Hamcrest Matchers
+=========================================
 
-[![Build Status](https://travis-ci.org/padraic/mockery.png?branch=master)](http://travis-ci.org/padraic/mockery)
-[![Latest Stable Version](https://poser.pugx.org/mockery/mockery/v/stable.png)](https://packagist.org/packages/mockery/mockery)
-[![Total Downloads](https://poser.pugx.org/mockery/mockery/downloads.png)](https://packagist.org/packages/mockery/mockery)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/hamcrest/hamcrest-php/badges/quality-score.png?s=754f5c0556419fc6204917ca9a9dcf2fa2b45ed0)](https://scrutinizer-ci.com/g/hamcrest/hamcrest-php/)
+[![Build Status](https://travis-ci.org/hamcrest/hamcrest-php.png?branch=master)](https://travis-ci.org/hamcrest/hamcrest-php)
+[![Coverage Status](https://coveralls.io/repos/hamcrest/hamcrest-php/badge.png)](https://coveralls.io/r/hamcrest/hamcrest-php)
 
+Hamcrest is a matching library originally written for Java, but
+subsequently ported to many other languages.  hamcrest-php is the
+official PHP port of Hamcrest and essentially follows a literal
+translation of the original Java API for Hamcrest, with a few
+Exceptions, mostly down to PHP language barriers:
 
-Mockery is a simple yet flexible PHP mock object framework for use in unit testing
-with PHPUnit, PHPSpec or any other testing framework. Its core goal is to offer a
-test double framework with a succinct API capable of clearly defining all possible
-object operations and interactions using a human readable Domain Specific Language
-(DSL). Designed as a drop in alternative to PHPUnit's phpunit-mock-objects library,
-Mockery is easy to integrate with PHPUnit and can operate alongside
-phpunit-mock-objects without the World ending.
+  1. `instanceOf($theClass)` is actually `anInstanceOf($theClass)`
 
-Mockery is released under a New BSD License.
+  2. `both(containsString('a'))->and(containsString('b'))`
+     is actually `both(containsString('a'))->andAlso(containsString('b'))`
 
-The current released version on Packagist is 0.9.3.
-The current released version for PEAR is 0.9.0. Composer users may instead opt to use
-the current master branch aliased to 0.9.x-dev.
+  3. `either(containsString('a'))->or(containsString('b'))`
+     is actually `either(containsString('a'))->orElse(containsString('b'))`
 
-## Installation
+  4. Unless it would be non-semantic for a matcher to do so, hamcrest-php
+     allows dynamic typing for it's input, in "the PHP way". Exception are
+     where semantics surrounding the type itself would suggest otherwise,
+     such as stringContains() and greaterThan().
 
-To install Mockery, run the command below and you will get the latest
-version
+  5. Several official matchers have not been ported because they don't
+     make sense or don't apply in PHP:
 
-```sh
-composer require mockery/mockery
+       - `typeCompatibleWith($theClass)`
+       - `eventFrom($source)`
+       - `hasProperty($name)` **
+       - `samePropertyValuesAs($obj)` **
+
+  6. When most of the collections matchers are finally ported, PHP-specific
+     aliases will probably be created due to a difference in naming
+     conventions between Java's Arrays, Collections, Sets and Maps compared
+     with PHP's Arrays.
+
+Usage
+-----
+
+Hamcrest matchers are easy to use as:
+
+```php
+Hamcrest_MatcherAssert::assertThat('a', Hamcrest_Matchers::equalToIgnoringCase('A'));
 ```
 
-If you want to run the tests:
-
-```sh
-vendor/bin/phpunit
-```
-
-####Note
-
-The future Mockery 0.9.4 release will be the final version to have PHP 5.3
-as a minimum requirement. The minimum PHP requirement will thereafter move to
-PHP 5.4. Also, the PEAR channel will go offline permanently no earlier than 30
-June 2015.
-
-## Mock Objects
-
-In unit tests, mock objects simulate the behaviour of real objects. They are
-commonly utilised to offer test isolation, to stand in for objects which do not
-yet exist, or to allow for the exploratory design of class APIs without
-requiring actual implementation up front.
-
-The benefits of a mock object framework are to allow for the flexible generation
-of such mock objects (and stubs). They allow the setting of expected method calls
-and return values using a flexible API which is capable of capturing every
-possible real object behaviour in way that is stated as close as possible to a
-natural language description.
-
-
-## Prerequisites
-
-Mockery requires PHP 5.3.2 or greater. In addition, it is recommended to install
-the Hamcrest library (see below for instructions) which contains additional
-matchers used when defining expected method arguments.
-
-
-## Documentation
-
-The current version can be seen at [docs.mockery.io](http://docs.mockery.io).
+  ** [Unless we consider POPO's (Plain Old PHP Objects) akin to JavaBeans]
+     - The POPO thing is a joke.  Java devs coin the term POJO's (Plain Old
+       Java Objects).
