@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="false"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false"
-         bootstrap="./test/bootstrap.php">
+<phpunit bootstrap="vendor/autoload.php" colors="true">
     <testsuites>
-        <testsuite name="PHPParser Test Suite">
-            <directory>./test/</directory>
+        <testsuite name="Monolog Test Suite">
+            <directory>tests/Monolog/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">./lib/PhpParser/</directory>
+            <directory suffix=".php">src/Monolog/</directory>
         </whitelist>
     </filter>
+
+    <php>
+        <ini name="date.timezone" value="UTC"/>
+    </php>
 </phpunit>
